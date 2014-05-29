@@ -8,5 +8,6 @@ angular.module('uarmApp')
 			servos = (num for num in [1..6])
 			for servo_index in servos then do =>
 				key = 'servo.' + servo_index
-				@client.on key, (data)  =>
-					@$rootScope.$broadcast(key, data);
+				@client.on key, (data)  => 
+					@$rootScope.$apply =>
+						@$rootScope.$broadcast(key, data);

@@ -4,7 +4,8 @@ angular.module('uarmApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'ui.knob'
 ])
   .config ($routeProvider, $locationProvider) ->
     $routeProvider

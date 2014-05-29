@@ -6,4 +6,4 @@ To start the project:
 
 `grunt serve`
 
-Status: This project does not work yet, still strugling with socket.io, angular and nodejs
+Status: This project does no amount of control yet, all it does is show the status of the 4 main servos

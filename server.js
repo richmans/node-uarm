@@ -2,6 +2,8 @@
 
 var express = require('express');
 var io = require('socket.io');
+
+
 /**
  * Main application file
  */
@@ -16,7 +18,7 @@ var express = require('express');
 var http = require('http');
 var app = express();
 var server = http.createServer(app);
-io = io.listen(server);
+io = io.listen(server, {log: false});
 require('./lib/config/express')(app);
 require('./lib/routes')(app);
 server.listen(config.port, config.ip, function () {
@@ -24,9 +26,32 @@ server.listen(config.port, config.ip, function () {
 });
 
 
-io.sockets.on('connection', function (socket) {
-  socket.emit('servo.1', { value: 100 });  
-});
-
 // Expose app
 exports = module.exports = app;
+
+var arduino = require('duino');
+var board = new arduino.Board();
+
+var sensors = ['A0','A1','A2','A3','A4','A5'];
+
+board.on('ready', function(){
+	for (var i in sensors) {
+		(function(i) {
+			var sensor_name = sensors[i];
+			var sensor_index = i;
+			var sensor = new arduino.Sensor({
+			  board: board,
+			  pin: sensor_name
+			});
+
+			sensor.on('read', function(err, value) {
+				io.sockets.emit('servo.' + (+sensor_index+1), value);
+			});
+		})(i);
+	}
+});
+process.on('uncaughtException', function(err) {
+	console.error(err);
+	//process.exit(1);
+});
+
