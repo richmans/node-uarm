@@ -7,7 +7,7 @@
  <div class='row'>
 	<div class='col-md-2' ng-repeat="servo in servos" ng-controller='ServoCtrl' ng-init="servo=servo">
 			<h3>{{servo.name}}</h3>
-	   <knob knob-data="data" knob-max='max' knob-options="knobOptions" ng-click='sendCommand()' ng-model="data" ></knob>
+	   <knob knob-data="data" knob-max='max' knob-options="knobOptions"></knob>
 	</div>
 </div> 
 <div class="footer">

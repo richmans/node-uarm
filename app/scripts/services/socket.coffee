@@ -15,6 +15,5 @@ angular.module('uarmApp')
 
     @$rootScope.$on 'servo.command', (event, value) =>
       @client.emit('servo.command', value);
-      console.info(value);
-      
+
       
