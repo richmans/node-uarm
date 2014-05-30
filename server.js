@@ -25,6 +25,11 @@ server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
 });
 
+io.on('connection', function(socket){
+  socket.on('servo.command', function(msg){
+    console.log('message: ' + msg);
+  });
+});
 
 // Expose app
 exports = module.exports = app;
@@ -43,7 +48,7 @@ board.on('ready', function(){
 			  board: board,
 			  pin: sensor_name
 			});
-
+			
 			sensor.on('read', function(err, value) {
 				io.sockets.emit('servo.' + (+sensor_index+1), value);
 			});
